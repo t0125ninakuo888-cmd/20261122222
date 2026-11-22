@@ -1,0 +1,2675 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="artifact-type" content="tool">
+  <meta name="design-style" content="sticker">
+  <title>拈花惹草：校園植物大探險</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..900;1,9..40,400..900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+
+      /* Page and surfaces (薄荷綠與淡黃色系) */
+      --background: #eefaf1;
+      --surface-container-low: #ffffff;
+      --surface-container: #fff8d6;
+      --surface-container-high: #dff4e5;
+      --surface-mint-soft: #e6f8ec;
+
+      /* Ink */
+      --on-surface: #1d3628;
+      --on-surface-variant: #466353;
+
+      /* Rules */
+      --outline: #6c8c78;
+      --outline-variant: #cbe4d3;
+
+      /* Accents */
+      --primary: #147a4b;
+      --on-primary: #ffffff;
+      --primary-container: #c5f2d8;
+      --on-primary-container: #11472c;
+      --secondary: #a85200;
+      --on-secondary: #ffffff;
+      --secondary-container: #ffe9a8;
+      --on-secondary-container: #4a2600;
+      --tertiary: #f2b705;
+      --on-tertiary: #3b2a00;
+      --positive: #147a4b;
+      --warning: #a85200;
+      --error: #c53030;
+      --on-error: #ffffff;
+      --focus: #147a4b;
+
+      /* Botanical & Illustration Palette Tokens */
+      --illus-leaf-bright: #48b878;
+      --illus-leaf-mid: #279458;
+      --illus-leaf-dark: #14633a;
+      --illus-stem: #3d7a4a;
+      --illus-sun: #ffd54f;
+      --illus-sun-deep: #f59e0b;
+      --illus-rose: #e85370;
+      --illus-rose-dark: #b8294a;
+      --illus-soil: #8c5a3c;
+      --illus-soil-dark: #5c3822;
+      --illus-sky: #bae6fd;
+      --illus-cloud: #ffffff;
+      --illus-rabbit: #fffdf7;
+      --illus-rabbit-ear: #ffd1dc;
+      --illus-bee-gold: #fbbf24;
+      --illus-bird-blue: #38bdf8;
+      --illus-worm: #84cc16;
+      --illus-wood: #c2854c;
+      --illus-apple: #ef4444;
+      --illus-wand: #7c3aed;
+
+      /* Data / Line connector colors */
+      --data-1: #147a4b;
+      --data-2: #d97706;
+      --data-3: #db2777;
+      --data-context: #cbe4d3;
+
+      /* Fonts */
+      --font-headline: 'Noto Sans TC', 'DM Sans', sans-serif;
+      --font-body: 'Noto Sans TC', 'DM Sans', sans-serif;
+      --font-label: 'Noto Sans TC', 'DM Sans', sans-serif;
+
+      /* Type Scale (Larger kid-friendly sizes for Grade 2) */
+      --display-size: clamp(1.875rem, 1.45rem + 1.5vw, 2.625rem);
+      --headline-size: clamp(1.45rem, 1.25rem + 0.8vw, 1.875rem);
+      --subhead-size: clamp(1.1875rem, 1.08rem + 0.4vw, 1.375rem);
+      --body-size: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+      --label-size: 0.9375rem;
+
+      /* Shape (Sticker Pills & Soft Slabs) */
+      --rounded-sm: 0.75rem;
+      --rounded: 1.25rem;
+      --rounded-lg: 2rem;
+      --rounded-full: 9999px;
+
+      /* Tinted Shadows & Motion */
+      --shadow-mint: 0 6px 20px rgb(20 122 75 / 0.14);
+      --shadow-mint-deep: 0 12px 28px rgb(20 122 75 / 0.24);
+      --shadow-yellow: 0 6px 20px rgb(217 155 0 / 0.18);
+      --shadow-coral: 0 6px 20px rgb(232 83 112 / 0.16);
+      --pop-scale: scale(1.03);
+      --lift: translateY(-3px);
+
+      /* Spacing Scale */
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2.25rem;
+      --space-2xl: 3.5rem;
+
+      /* Motion */
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+      --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --dur-micro: 120ms;
+      --dur-short: 240ms;
+      --dur-long: 420ms;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      overflow-x: clip;
+      margin: 0;
+      padding: 0;
+      background-color: var(--background);
+      background-image:
+        radial-gradient(circle at 12% 8%, var(--surface-container) 0%, transparent 32%),
+        radial-gradient(circle at 88% 16%, var(--primary-container) 0%, transparent 28%),
+        radial-gradient(circle at 85% 88%, var(--surface-container) 0%, transparent 34%);
+      color: var(--on-surface);
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      line-height: 1.65;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    header { position: static !important; }
+
+    button, input, select, textarea {
+      font-family: inherit;
+      font-size: inherit;
+      letter-spacing: 0;
+      text-transform: none;
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    .page-shell {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: var(--space-lg);
+      display: grid;
+      gap: var(--space-lg);
+    }
+    .page-shell * { min-width: 0; }
+
+    /* Hero / Top Dashboard Card */
+    .hero-header {
+      background: var(--surface-container-low);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg) var(--space-xl);
+      box-shadow: var(--shadow-mint);
+      display: grid;
+      gap: var(--space-md);
+    }
+
+    .hero-top-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+    }
+
+    .brand-mascot {
+      width: 68px;
+      height: 68px;
+      flex-shrink: 0;
+      background: var(--surface-container);
+      border-radius: var(--rounded-full);
+      display: grid;
+      place-items: center;
+      box-shadow: var(--shadow-yellow);
+    }
+
+    .display-title {
+      margin: 0;
+      font-family: var(--font-headline);
+      font-weight: 900;
+      font-size: var(--display-size);
+      line-height: 1.15;
+      color: var(--on-surface);
+    }
+    .display-title em {
+      font-style: normal;
+      color: var(--primary);
+    }
+
+    .subtitle-text {
+      margin: var(--space-xs) 0 0;
+      color: var(--on-surface-variant);
+      font-size: var(--body-size);
+      font-weight: 500;
+    }
+
+    .header-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    /* Buttons (Sticker Pills) */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-sm);
+      min-height: 48px;
+      padding: var(--space-sm) var(--space-lg);
+      border: 0;
+      border-radius: var(--rounded-full);
+      font-weight: 700;
+      font-size: var(--body-size);
+      cursor: pointer;
+      user-select: none;
+      transition: transform var(--dur-short) var(--ease-bounce),
+                  box-shadow var(--dur-short) var(--ease-out),
+                  background-color var(--dur-micro) var(--ease-out);
+    }
+    .btn:hover:not(:disabled) { transform: var(--pop-scale); }
+    .btn:active:not(:disabled) { transform: scale(0.97); }
+    .btn:disabled {
+      opacity: 0.48;
+      cursor: not-allowed;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: var(--on-primary);
+      box-shadow: var(--shadow-mint);
+    }
+    .btn-primary:hover:not(:disabled) { box-shadow: var(--shadow-mint-deep); }
+
+    .btn-secondary {
+      background: var(--secondary);
+      color: var(--on-secondary);
+      box-shadow: var(--shadow-yellow);
+    }
+
+    .btn-soft {
+      background: var(--surface-container-high);
+      color: var(--on-surface);
+    }
+    .btn-soft:hover:not(:disabled) { background: var(--primary-container); }
+
+    .btn-yellow {
+      background: var(--secondary-container);
+      color: var(--on-secondary-container);
+      box-shadow: var(--shadow-yellow);
+    }
+
+    .btn-sm {
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-md);
+      font-size: var(--label-size);
+    }
+
+    /* Progress & Five-Star Bar */
+    .progress-dashboard {
+      background: var(--surface-mint-soft);
+      border-radius: var(--rounded);
+      padding: var(--space-md) var(--space-lg);
+      display: grid;
+      gap: var(--space-md);
+    }
+
+    .progress-summary-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+    }
+
+    .progress-label-group {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      font-weight: 700;
+      color: var(--on-surface);
+    }
+
+    .progress-pill-count {
+      background: var(--primary);
+      color: var(--on-primary);
+      border-radius: var(--rounded-full);
+      padding: var(--space-xs) var(--space-md);
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .stars-tray {
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+    }
+
+    .star-badge {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--rounded-full);
+      background: var(--surface-container-low);
+      display: grid;
+      place-items: center;
+      transition: transform var(--dur-short) var(--ease-bounce),
+                  background-color var(--dur-short) var(--ease-out);
+    }
+    .star-badge.earned {
+      background: var(--secondary-container);
+      box-shadow: var(--shadow-yellow);
+      animation: starPop 460ms var(--ease-bounce);
+    }
+
+    @keyframes starPop {
+      0% { transform: scale(0.5) rotate(-20deg); }
+      65% { transform: scale(1.24) rotate(10deg); }
+      100% { transform: scale(1) rotate(0deg); }
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 16px;
+      background: var(--surface-container-low);
+      border-radius: var(--rounded-full);
+      overflow: hidden;
+      padding: 3px;
+    }
+    .progress-fill {
+      height: 100%;
+      width: 20%;
+      background: linear-gradient(90deg, var(--illus-leaf-bright), var(--primary));
+      border-radius: var(--rounded-full);
+      transition: width var(--dur-long) var(--ease-bounce);
+    }
+
+    .stage-nav-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: var(--space-sm);
+    }
+
+    .stage-tab {
+      min-height: 52px;
+      border: 2px solid transparent;
+      border-radius: var(--rounded);
+      background: var(--surface-container-low);
+      color: var(--on-surface-variant);
+      padding: var(--space-sm);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      font-weight: 700;
+      font-size: var(--label-size);
+      cursor: pointer;
+      transition: transform var(--dur-short) var(--ease-bounce),
+                  background-color var(--dur-micro) var(--ease-out),
+                  box-shadow var(--dur-short) var(--ease-out);
+    }
+    .stage-tab:hover { transform: var(--lift); }
+    .stage-tab.active {
+      background: var(--surface-container);
+      color: var(--on-surface);
+      border-color: var(--primary);
+      box-shadow: var(--shadow-yellow);
+    }
+    .stage-tab.completed {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+    }
+    .stage-tab.completed.active {
+      border-color: var(--primary);
+      background: var(--surface-container);
+      color: var(--on-surface);
+    }
+    .stage-tab-num {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    /* Main Stage Card */
+    .stage-card {
+      background: var(--surface-container-low);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-xl);
+      box-shadow: var(--shadow-mint);
+      display: grid;
+      gap: var(--space-lg);
+      container-type: inline-size;
+    }
+
+    .stage-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: var(--space-md);
+    }
+
+    .stage-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      background: var(--secondary-container);
+      color: var(--on-secondary-container);
+      border-radius: var(--rounded-full);
+      padding: var(--space-xs) var(--space-md);
+      font-weight: 800;
+      font-size: var(--label-size);
+      margin-bottom: var(--space-xs);
+    }
+
+    .stage-title {
+      margin: 0;
+      font-size: var(--headline-size);
+      font-weight: 900;
+      line-height: 1.25;
+      color: var(--on-surface);
+    }
+
+    .guide-banner {
+      background: var(--surface-container);
+      border-radius: var(--rounded);
+      padding: var(--space-md) var(--space-lg);
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      box-shadow: var(--shadow-yellow);
+    }
+
+    .guide-icon {
+      flex-shrink: 0;
+      width: 48px;
+      height: 48px;
+      border-radius: var(--rounded-full);
+      background: var(--surface-container-low);
+      display: grid;
+      place-items: center;
+    }
+
+    .guide-text {
+      margin: 0;
+      font-weight: 600;
+      color: var(--on-surface);
+    }
+
+    /* Shared Interactive Tokens / Chips / Dropzones */
+    .work-panel {
+      background: var(--surface-mint-soft);
+      border-radius: var(--rounded);
+      padding: var(--space-lg);
+      display: grid;
+      gap: var(--space-md);
+    }
+
+    .panel-title {
+      margin: 0;
+      font-size: var(--subhead-size);
+      font-weight: 800;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    .chip-tray {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      padding: var(--space-md);
+      background: var(--surface-container-low);
+      border-radius: var(--rounded);
+      min-height: 76px;
+      align-items: center;
+    }
+
+    .drag-chip {
+      min-height: 50px;
+      padding: var(--space-sm) var(--space-lg);
+      border-radius: var(--rounded-full);
+      border: 2px solid var(--outline-variant);
+      background: var(--surface-container);
+      color: var(--on-surface);
+      font-weight: 800;
+      font-size: var(--subhead-size);
+      cursor: grab;
+      user-select: none;
+      touch-action: manipulation;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      box-shadow: var(--shadow-yellow);
+      transition: transform var(--dur-short) var(--ease-bounce),
+                  box-shadow var(--dur-short) var(--ease-out),
+                  background-color var(--dur-micro) var(--ease-out),
+                  border-color var(--dur-micro) var(--ease-out);
+    }
+    .drag-chip:hover { transform: var(--pop-scale); }
+    .drag-chip:active { cursor: grabbing; transform: scale(0.97); }
+    .drag-chip.selected {
+      background: var(--primary);
+      color: var(--on-primary);
+      border-color: var(--primary);
+      box-shadow: var(--shadow-mint-deep);
+      transform: var(--pop-scale);
+    }
+    .drag-chip.used {
+      opacity: 0.35;
+      cursor: default;
+      box-shadow: none;
+    }
+
+    .drop-slot {
+      min-width: 112px;
+      min-height: 52px;
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--rounded-full);
+      border: 3px dashed var(--primary);
+      background: var(--surface-container-low);
+      color: var(--on-surface-variant);
+      font-weight: 800;
+      font-size: var(--subhead-size);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform var(--dur-short) var(--ease-bounce),
+                  background-color var(--dur-micro) var(--ease-out),
+                  border-color var(--dur-micro) var(--ease-out);
+    }
+    .drop-slot.drag-over,
+    .drop-slot:hover {
+      background: var(--primary-container);
+      transform: var(--pop-scale);
+    }
+    .drop-slot.filled {
+      border-style: solid;
+      border-color: var(--primary);
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+    }
+    .drop-slot.correct {
+      border-style: solid;
+      border-color: var(--positive);
+      background: var(--primary);
+      color: var(--on-primary);
+    }
+    .drop-slot.wrong {
+      border-style: solid;
+      border-color: var(--error);
+      background: var(--surface-container);
+      color: var(--error);
+      animation: gentleShake 320ms var(--ease-in-out);
+    }
+
+    @keyframes gentleShake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-6px); }
+      75% { transform: translateX(6px); }
+    }
+
+    /* Stage 1 Specific */
+    .sense-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-md);
+    }
+
+    .sense-card {
+      background: var(--surface-container-low);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+      box-shadow: var(--shadow-mint);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+    }
+
+    .sense-info {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    .sense-badge {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--rounded-full);
+      background: var(--surface-container);
+      display: grid;
+      place-items: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .sentence-builder-box {
+      background: var(--surface-container-low);
+      border-radius: var(--rounded);
+      padding: var(--space-lg);
+      font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.55rem);
+      font-weight: 800;
+      line-height: 2.2;
+      color: var(--on-surface);
+      box-shadow: var(--shadow-yellow);
+    }
+
+    .element-tag {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--on-surface-variant);
+      margin-right: 4px;
+    }
+
+    /* Stage 2 Specific */
+    .clinic-scene {
+      display: grid;
+      grid-template-columns: 200px minmax(0, 1fr);
+      gap: var(--space-lg);
+      align-items: center;
+    }
+
+    .clinic-illus-box {
+      background: var(--surface-container);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md);
+      display: grid;
+      place-items: center;
+      box-shadow: var(--shadow-coral);
+    }
+
+    .speech-bubble {
+      background: var(--surface-container-low);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+      box-shadow: var(--shadow-mint);
+      font-size: clamp(1.3rem, 1.1rem + 0.7vw, 1.7rem);
+      font-weight: 800;
+      line-height: 2.2;
+      position: relative;
+    }
+
+    .punct-slot {
+      min-width: 58px;
+      min-height: 54px;
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--rounded-sm);
+      border: 3px dashed var(--secondary);
+      background: var(--surface-container);
+      color: var(--secondary);
+      font-weight: 900;
+      font-size: 1.45rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      vertical-align: middle;
+      margin: 0 4px;
+      cursor: pointer;
+      transition: transform var(--dur-short) var(--ease-bounce),
+                  background-color var(--dur-micro) var(--ease-out);
+    }
+    .punct-slot:hover,
+    .punct-slot.drag-over {
+      transform: var(--pop-scale);
+      background: var(--secondary-container);
+    }
+    .punct-slot.filled {
+      border-style: solid;
+      background: var(--secondary-container);
+      color: var(--on-secondary-container);
+    }
+    .punct-slot.correct {
+      border-style: solid;
+      border-color: var(--positive);
+      background: var(--primary);
+      color: var(--on-primary);
+    }
+    .punct-slot.wrong {
+      border-style: solid;
+      border-color: var(--error);
+      background: var(--surface-container-low);
+      color: var(--error);
+      animation: gentleShake 320ms var(--ease-in-out);
+    }
+
+    .punct-hint-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+      gap: var(--space-sm);
+    }
+    .punct-hint-item {
+      background: var(--surface-container-low);
+      border-radius: var(--rounded-sm);
+      padding: var(--space-sm) var(--space-md);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      font-weight: 600;
+    }
+
+    /* Stage 3 Specific */
+    .sequence-slots {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-md);
+    }
+
+    .seq-slot-card {
+      background: var(--surface-container-low);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+      border: 3px dashed var(--primary);
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+      align-items: center;
+      justify-content: flex-start;
+      text-align: center;
+      cursor: pointer;
+      transition: transform var(--dur-short) var(--ease-bounce),
+                  background-color var(--dur-micro) var(--ease-out);
+    }
+    .seq-slot-card:hover,
+    .seq-slot-card.drag-over {
+      background: var(--primary-container);
+      transform: var(--lift);
+    }
+    .seq-slot-card.filled {
+      border-style: solid;
+      box-shadow: var(--shadow-mint);
+    }
+    .seq-slot-card.correct {
+      border-color: var(--positive);
+      background: var(--surface-mint-soft);
+    }
+    .seq-slot-card.wrong {
+      border-color: var(--error);
+      animation: gentleShake 320ms var(--ease-in-out);
+    }
+
+    .seq-badge {
+      background: var(--secondary);
+      color: var(--on-secondary);
+      border-radius: var(--rounded-full);
+      padding: var(--space-xs) var(--space-md);
+      font-weight: 900;
+      font-size: var(--body-size);
+    }
+
+    .puzzle-cards-tray {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-md);
+    }
+
+    .puzzle-card {
+      background: var(--surface-container-low);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+      border: 2px solid var(--outline-variant);
+      box-shadow: var(--shadow-yellow);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-sm);
+      text-align: center;
+      font-weight: 700;
+      cursor: grab;
+      user-select: none;
+      transition: transform var(--dur-short) var(--ease-bounce),
+                  box-shadow var(--dur-short) var(--ease-out);
+    }
+    .puzzle-card:hover { transform: var(--lift); }
+    .puzzle-card.selected {
+      border-color: var(--primary);
+      background: var(--surface-container);
+      box-shadow: var(--shadow-mint-deep);
+      transform: var(--pop-scale);
+    }
+    .puzzle-card.used {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+
+    /* Stage 4 Specific: Cause & Effect Matching */
+    .match-board {
+      position: relative;
+      background: var(--surface-container-low);
+      border-radius: var(--rounded);
+      padding: var(--space-lg);
+      box-shadow: var(--shadow-mint);
+      min-height: 310px;
+    }
+
+    .match-svg-layer {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .match-columns {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 80px minmax(0, 1fr);
+      gap: var(--space-md);
+      align-items: stretch;
+    }
+
+    .match-col {
+      display: grid;
+      gap: var(--space-md);
+    }
+
+    .match-col-header {
+      text-align: center;
+      font-weight: 900;
+      font-size: var(--subhead-size);
+      color: var(--primary);
+      background: var(--surface-mint-soft);
+      border-radius: var(--rounded-full);
+      padding: var(--space-xs) var(--space-md);
+    }
+
+    .match-node {
+      min-height: 76px;
+      border-radius: var(--rounded);
+      border: 3px solid var(--outline-variant);
+      background: var(--surface-container);
+      padding: var(--space-sm) var(--space-md);
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      font-weight: 800;
+      font-size: var(--body-size);
+      color: var(--on-surface);
+      cursor: pointer;
+      text-align: left;
+      transition: transform var(--dur-short) var(--ease-bounce),
+                  border-color var(--dur-micro) var(--ease-out),
+                  background-color var(--dur-micro) var(--ease-out);
+    }
+    .match-node:hover { transform: var(--pop-scale); }
+    .match-node.selected {
+      border-color: var(--secondary);
+      background: var(--secondary-container);
+      box-shadow: var(--shadow-yellow);
+    }
+    .match-node.matched {
+      border-color: var(--positive);
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+    }
+    .match-node.wrong {
+      border-color: var(--error);
+      animation: gentleShake 320ms var(--ease-in-out);
+    }
+
+    .match-dot {
+      width: 18px;
+      height: 18px;
+      border-radius: var(--rounded-full);
+      background: var(--primary);
+      flex-shrink: 0;
+    }
+    .match-node.left-node { justify-content: space-between; }
+    .match-node.right-node { justify-content: flex-start; }
+
+    /* Stage 5 Specific */
+    .magic-sentence-card {
+      background: var(--surface-container-low);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+      box-shadow: var(--shadow-yellow);
+      font-size: clamp(1.2rem, 1.05rem + 0.6vw, 1.5rem);
+      font-weight: 800;
+      line-height: 2.3;
+    }
+
+    .magic-blank-group {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      vertical-align: middle;
+    }
+
+    .magic-clue {
+      font-size: 1.35rem;
+    }
+
+    /* Feedback & Footer Actions */
+    .feedback-box {
+      border-radius: var(--rounded);
+      padding: var(--space-md) var(--space-lg);
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      min-height: 56px;
+      background: var(--surface-container-high);
+      color: var(--on-surface);
+      transition: background-color var(--dur-short) var(--ease-out);
+    }
+    .feedback-box.success {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+      box-shadow: var(--shadow-mint);
+    }
+    .feedback-box.error {
+      background: var(--surface-container);
+      color: var(--error);
+    }
+
+    .stage-footer {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+    }
+
+    /* Certificate / Grand Finale Section */
+    .certificate-section {
+      display: none;
+      gap: var(--space-lg);
+    }
+    .certificate-section.active {
+      display: grid;
+      animation: fadeRise var(--dur-long) var(--ease-bounce);
+    }
+
+    @keyframes fadeRise {
+      0% { opacity: 0; transform: translateY(18px) scale(0.97); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .celebration-banner {
+      background: var(--surface-container);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-xl);
+      text-align: center;
+      box-shadow: var(--shadow-yellow);
+      display: grid;
+      gap: var(--space-md);
+      justify-items: center;
+    }
+
+    .celebration-stars {
+      display: flex;
+      gap: var(--space-sm);
+      justify-content: center;
+    }
+
+    .celebration-star-item {
+      animation: starBounce 520ms var(--ease-bounce) both;
+    }
+    .celebration-star-item:nth-child(2) { animation-delay: 80ms; }
+    .celebration-star-item:nth-child(3) { animation-delay: 160ms; }
+    .celebration-star-item:nth-child(4) { animation-delay: 240ms; }
+    .celebration-star-item:nth-child(5) { animation-delay: 320ms; }
+
+    @keyframes starBounce {
+      0% { opacity: 0; transform: scale(0.3) translateY(20px); }
+      70% { opacity: 1; transform: scale(1.2) translateY(-6px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .name-form-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: end;
+      justify-content: center;
+      gap: var(--space-md);
+      width: 100%;
+      max-width: 520px;
+    }
+
+    .input-field-group {
+      display: grid;
+      gap: var(--space-xs);
+      text-align: left;
+      flex: 1 1 220px;
+    }
+    .input-label {
+      font-weight: 800;
+      font-size: var(--label-size);
+      color: var(--on-surface);
+    }
+    .pill-input {
+      min-height: 48px;
+      padding: var(--space-sm) var(--space-lg);
+      border-radius: var(--rounded-full);
+      border: 2px solid var(--outline);
+      background: var(--surface-container-low);
+      color: var(--on-surface);
+      font-weight: 700;
+    }
+    .pill-input:focus {
+      border-color: var(--primary);
+    }
+
+    .certificate-frame {
+      background: var(--surface-container-low);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-xl);
+      border: 6px solid var(--primary);
+      box-shadow: var(--shadow-mint-deep);
+      display: grid;
+      gap: var(--space-lg);
+      text-align: center;
+      position: relative;
+    }
+
+    .certificate-inner {
+      border: 3px dashed var(--tertiary);
+      border-radius: var(--rounded);
+      padding: var(--space-xl) var(--space-lg);
+      background: var(--surface-container);
+      display: grid;
+      gap: var(--space-md);
+      justify-items: center;
+    }
+
+    .cert-title {
+      margin: 0;
+      font-size: var(--display-size);
+      font-weight: 900;
+      color: var(--primary);
+    }
+
+    .cert-recipient {
+      font-size: clamp(1.75rem, 1.4rem + 1.2vw, 2.25rem);
+      font-weight: 900;
+      color: var(--on-surface);
+      border-bottom: 4px solid var(--tertiary);
+      padding: 0 var(--space-lg) var(--space-xs);
+    }
+
+    .cert-badges-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(170px, 100%), 1fr));
+      gap: var(--space-sm);
+      width: 100%;
+    }
+
+    .cert-badge-pill {
+      background: var(--surface-container-low);
+      border-radius: var(--rounded);
+      padding: var(--space-sm) var(--space-md);
+      font-weight: 700;
+      font-size: var(--label-size);
+      color: var(--on-primary-container);
+      box-shadow: var(--shadow-mint);
+    }
+
+    .cert-footer-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+      width: 100%;
+      margin-top: var(--space-sm);
+      color: var(--on-surface-variant);
+      font-weight: 700;
+    }
+
+    .cert-seal {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      background: var(--primary);
+      color: var(--on-primary);
+      border-radius: var(--rounded-full);
+      padding: var(--space-xs) var(--space-md);
+      font-weight: 800;
+    }
+
+    /* Confetti Layer */
+    .confetti-burst {
+      display: flex;
+      justify-content: center;
+      gap: var(--space-md);
+      flex-wrap: wrap;
+    }
+
+    /* Responsive adaptations */
+    @container (max-width: 680px) {
+      .sense-grid,
+      .sequence-slots,
+      .puzzle-cards-tray {
+        grid-template-columns: 1fr;
+      }
+      .clinic-scene {
+        grid-template-columns: 1fr;
+      }
+      .match-columns {
+        grid-template-columns: 1fr;
+      }
+      .match-svg-layer {
+        display: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page-shell {
+        padding: var(--space-sm);
+      }
+      .hero-header,
+      .stage-card {
+        padding: var(--space-md);
+      }
+      .stage-nav-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .stage-tab:last-child {
+        grid-column: span 2;
+      }
+    }
+
+    @media print {
+      .hero-header,
+      .stage-card,
+      .celebration-banner,
+      .no-print {
+        display: none !important;
+      }
+      .certificate-section {
+        display: block !important;
+      }
+      body {
+        background: var(--surface-container-low);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <!-- Top Header & Progress Tracker -->
+    <header class="hero-header">
+      <div class="hero-top-row">
+        <div class="brand-group">
+          <div class="brand-mascot" aria-hidden="true">
+            <svg width="46" height="46" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="24" cy="24" r="20" fill="var(--primary-container)"/>
+              <path d="M24 38V22" stroke="var(--illus-stem)" stroke-width="3.5" stroke-linecap="round"/>
+              <path d="M24 26C24 18 33 14 38 17C37 24 30 28 24 26Z" fill="var(--illus-leaf-bright)"/>
+              <path d="M24 23C24 15 15 11 10 14C11 21 18 25 24 23Z" fill="var(--illus-leaf-mid)"/>
+              <circle cx="24" cy="14" r="5" fill="var(--illus-sun)"/>
+            </svg>
+          </div>
+          <div>
+            <h1 class="display-title">拈花惹草：<em>校園植物</em>大探險</h1>
+            <p class="subtitle-text">國小二年級五感觀察 × 語文創作 5 關互動闖關</p>
+          </div>
+        </div>
+
+        <div class="header-actions">
+          <button type="button" class="btn btn-soft btn-sm" id="sound-toggle-btn" onclick="toggleSound()">
+            🔊 音效：開啟
+          </button>
+          <button type="button" class="btn btn-yellow btn-sm" id="view-cert-btn" onclick="openCertificateView()" style="display: none;">
+            🏆 查看探險證書
+          </button>
+          <button type="button" class="btn btn-soft btn-sm" id="reset-all-btn" onclick="handleResetAll(this)">
+            🔄 重新闖關
+          </button>
+        </div>
+      </div>
+
+      <!-- Progress Bar + 5 Stars -->
+      <div class="progress-dashboard" aria-label="關卡進度與五星獎勵">
+        <div class="progress-summary-row">
+          <div class="progress-label-group">
+            <span>探險進度</span>
+            <span class="progress-pill-count" id="progress-ratio">第 1 / 5 關</span>
+            <span id="stars-count-label">已收集 0 / 5 顆星</span>
+          </div>
+          <div class="stars-tray" id="stars-tray" aria-label="五星獎勵"></div>
+        </div>
+
+        <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="5" aria-valuenow="0" id="progress-track">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+
+        <nav class="stage-nav-grid" id="stage-nav-grid" aria-label="關卡切換"></nav>
+      </div>
+    </header>
+
+    <!-- Active Stage Workspace -->
+    <main class="stage-card" id="stage-workspace">
+      <div class="stage-header">
+        <div>
+          <span class="stage-kicker" id="stage-kicker">第 1 關 · 觀察與寫作</span>
+          <h2 class="stage-title" id="stage-title">葉脈與五感大搜查</h2>
+        </div>
+        <div id="stage-status-pill" class="stage-kicker">🌟 尚未獲得星星</div>
+      </div>
+
+      <div class="guide-banner">
+        <div class="guide-icon" aria-hidden="true">
+          <svg width="32" height="32" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="18" cy="18" r="15" fill="var(--illus-sun)"/>
+            <circle cx="14" cy="16" r="2" fill="var(--on-surface)"/>
+            <circle cx="22" cy="16" r="2" fill="var(--on-surface)"/>
+            <path d="M14 21C15.5 23 20.5 23 22 21" stroke="var(--on-surface)" stroke-width="2.2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <p class="guide-text" id="stage-instruction">拖曳詞卡或先點選詞卡再點空位，完成五感配對和四要素句子吧！</p>
+      </div>
+
+      <!-- Dynamic Stage Body -->
+      <div id="stage-body">
+        <div id="match-board" style="display:none;"><svg id="match-svg-layer" aria-hidden="true"></svg></div>
+      </div>
+
+      <!-- Instant Feedback Banner -->
+      <div class="feedback-box" id="feedback-box" role="status" aria-live="polite">
+        💡 小提示：支援用手指拖曳，也可以先「點一下詞卡」，再「點一下空格」喔！
+      </div>
+
+      <!-- Footer Action Controls -->
+      <div class="stage-footer">
+        <button type="button" class="btn btn-soft" onclick="resetCurrentStage()">
+          ↺ 重玩這一關
+        </button>
+        <div style="display: flex; flex-wrap: wrap; gap: var(--space-sm);">
+          <button type="button" class="btn btn-primary" id="check-stage-btn" onclick="checkCurrentStage()">
+            ✔ 檢查看看
+          </button>
+          <button type="button" class="btn btn-secondary" id="next-stage-btn" onclick="goToNextStage()" style="display: none;">
+            前往下一關 ➔
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <!-- Grand Finale: 5-Star Celebration & Printable Certificate -->
+    <section class="certificate-section" id="certificate-section" aria-label="校園植物大探險家頒獎與證書">
+      <div class="celebration-banner">
+        <div class="celebration-stars" aria-hidden="true">
+          <span class="celebration-star-item">
+            <svg width="48" height="48" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 3L25.1 13.4L36.5 15L28.2 23.1L30.2 34.5L20 29.1L9.8 34.5L11.8 23.1L3.5 15L14.9 13.4L20 3Z" fill="var(--tertiary)" stroke="var(--secondary)" stroke-width="2"/></svg>
+          </span>
+          <span class="celebration-star-item">
+            <svg width="48" height="48" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 3L25.1 13.4L36.5 15L28.2 23.1L30.2 34.5L20 29.1L9.8 34.5L11.8 23.1L3.5 15L14.9 13.4L20 3Z" fill="var(--tertiary)" stroke="var(--secondary)" stroke-width="2"/></svg>
+          </span>
+          <span class="celebration-star-item">
+            <svg width="56" height="56" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 3L25.1 13.4L36.5 15L28.2 23.1L30.2 34.5L20 29.1L9.8 34.5L11.8 23.1L3.5 15L14.9 13.4L20 3Z" fill="var(--tertiary)" stroke="var(--secondary)" stroke-width="2"/></svg>
+          </span>
+          <span class="celebration-star-item">
+            <svg width="48" height="48" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 3L25.1 13.4L36.5 15L28.2 23.1L30.2 34.5L20 29.1L9.8 34.5L11.8 23.1L3.5 15L14.9 13.4L20 3Z" fill="var(--tertiary)" stroke="var(--secondary)" stroke-width="2"/></svg>
+          </span>
+          <span class="celebration-star-item">
+            <svg width="48" height="48" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 3L25.1 13.4L36.5 15L28.2 23.1L30.2 34.5L20 29.1L9.8 34.5L11.8 23.1L3.5 15L14.9 13.4L20 3Z" fill="var(--tertiary)" stroke="var(--secondary)" stroke-width="2"/></svg>
+          </span>
+        </div>
+
+        <h2 class="stage-title">🎉 太棒了！集滿五顆星星！</h2>
+        <p class="subtitle-text" style="margin: 0; font-weight: 700;">你已經完成全部 5 道校園植物觀察與語文關卡，獲得「校園植物大探險家」榮譽稱號！</p>
+
+        <div class="name-form-row no-print">
+          <div class="input-field-group">
+            <label for="explorer-name-input" class="input-label">探險家姓名（寫上你的名字印在證書上）：</label>
+            <input type="text" id="explorer-name-input" class="pill-input" maxlength="16" value="小小探險家" oninput="updateExplorerName(this.value)">
+          </div>
+          <button type="button" class="btn btn-primary" onclick="downloadCertificatePng()">
+            📥 下載證書圖卡
+          </button>
+          <button type="button" class="btn btn-soft" onclick="window.print()">
+            🖨️ 列印證書
+          </button>
+        </div>
+      </div>
+
+      <div class="certificate-frame" id="certificate-card">
+        <div class="certificate-inner">
+          <svg width="72" height="72" viewBox="0 0 72 72" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="36" cy="36" r="32" fill="var(--primary-container)"/>
+            <path d="M36 14L41.8 25.8L54.8 27.7L45.4 36.8L47.6 49.8L36 43.7L24.4 49.8L26.6 36.8L17.2 27.7L30.2 25.8L36 14Z" fill="var(--tertiary)" stroke="var(--secondary)" stroke-width="2.5"/>
+          </svg>
+          <p class="stage-kicker" style="margin: 0;">拈花惹草：校園植物大探險 · 榮譽獎狀</p>
+          <h3 class="cert-title">校園植物大探險家</h3>
+          <div class="cert-recipient" id="cert-recipient-name">小小探險家</div>
+          <p style="margin: 0; font-weight: 700; max-width: 52ch;">
+            用心張開五感觀察校園植物，完成下列五大語文與生態探險任務，表現優異，特頒此證書予以鼓勵！
+          </p>
+
+          <div class="cert-badges-grid">
+            <div class="cert-badge-pill">⭐ 1. 五感與四要素觀察家</div>
+            <div class="cert-badge-pill">⭐ 2. 花花對話標點小醫師</div>
+            <div class="cert-badge-pill">⭐ 3. 種子飛行順序小導遊</div>
+            <div class="cert-badge-pill">⭐ 4. 生態因果好夥伴偵探</div>
+            <div class="cert-badge-pill">⭐ 5. 植物變身說明魔法師</div>
+          </div>
+
+          <div class="cert-footer-row">
+            <span id="cert-date-label">頒發日期：2026 年 11 月 21 日</span>
+            <span class="cert-seal">🌿 校園植物探險隊認證</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="stage-footer no-print" style="justify-content: center;">
+        <button type="button" class="btn btn-soft" onclick="backToStagesFromCert()">
+          ← 回到關卡地圖繼續探索
+        </button>
+      </div>
+    </section>
+  </div>
+
+  <api-shim></api-shim>
+  <script>
+    /* =========================================================================
+       1. State Schema & Persistence
+       ========================================================================= */
+    const STAGES_META = [
+      {
+        id: 1,
+        shortTitle: `葉脈五感`,
+        kicker: `第 1 關 · 五感觀察與四要素造句`,
+        title: `葉脈與五感大搜查`,
+        instruction: `先幫放大鏡下的葉子配對「五感詞卡」，再把詞卡放進格子，完成「時間、人物、地點、事件」四要素句子！`
+      },
+      {
+        id: 2,
+        shortTitle: `標點診所`,
+        kicker: `第 2 關 · 說話對話標點符號`,
+        title: `花花對話標點診所`,
+        instruction: `小兔花花正在讚美玫瑰花！請把正確的標點符號小藥丸（：、「、！」）放進括號裡吧！`
+      },
+      {
+        id: 3,
+        shortTitle: `種子飛行`,
+        kicker: `第 3 關 · 時間順序複句`,
+        title: `種子飛行順序拼圖`,
+        instruction: `蒲公英種子要去旅行囉！請按照「先……接著……最後……」的順序，排好 3 張旅行圖卡。`
+      },
+      {
+        id: 4,
+        shortTitle: `生態連線`,
+        kicker: `第 4 關 · 因果複句連連看`,
+        title: `生態好夥伴因果連連看`,
+        instruction: `校園裡的動植物互相幫忙！請點選左邊的「因為」，再點選右邊對應的「所以」連成好夥伴。`
+      },
+      {
+        id: 5,
+        shortTitle: `變身魔法`,
+        kicker: `第 5 關 · 說明文列舉句`,
+        title: `植物變身大魔法`,
+        instruction: `植物有很多神奇的用處！請參考小圖示提示，點選正確的詞卡完成「有的……有的……還有……」說明句。`
+      }
+    ];
+
+    function createDefaultState() {
+      return {
+        currentStage: 1,
+        viewingCertificate: false,
+        soundEnabled: true,
+        explorerName: `小小探險家`,
+        completedStages: [],
+        stage1: {
+          senses: { color: ``, touch: ``, shape: ``, smell: `` },
+          sentence: { time: ``, person: ``, place: ``, adj: `` }
+        },
+        stage2: {
+          slots: [``, ``, ``, ``]
+        },
+        stage3: {
+          slots: [``, ``, ``]
+        },
+        stage4: {
+          connections: {}
+        },
+        stage5: {
+          slots: [``, ``, ``]
+        }
+      };
+    }
+
+    let appState = createDefaultState();
+    let activeSelection = null; // { stage, kind, value } for tap-to-place iPad workflow
+    let stage4SelectedLeft = null;
+    let audioCtx = null;
+
+    async function persistState() {
+      try {
+        if (window.notebookAppApi && typeof window.notebookAppApi.setAppState === 'function') {
+          await window.notebookAppApi.setAppState(appState);
+        }
+      } catch (err) {
+        // Ignore persistence errors in standalone preview
+      }
+    }
+
+    async function loadSavedState() {
+      try {
+        if (window.notebookAppApi && typeof window.notebookAppApi.getAppState === 'function') {
+          const saved = await window.notebookAppApi.getAppState();
+          if (saved && typeof saved === 'object') {
+            const fresh = createDefaultState();
+            appState = {
+              ...fresh,
+              ...saved,
+              stage1: {
+                senses: { ...fresh.stage1.senses, ...(saved.stage1 && saved.stage1.senses ? saved.stage1.senses : {}) },
+                sentence: { ...fresh.stage1.sentence, ...(saved.stage1 && saved.stage1.sentence ? saved.stage1.sentence : {}) }
+              },
+              stage2: {
+                slots: Array.isArray(saved.stage2 && saved.stage2.slots) && saved.stage2.slots.length === 4 ? saved.stage2.slots : fresh.stage2.slots
+              },
+              stage3: {
+                slots: Array.isArray(saved.stage3 && saved.stage3.slots) && saved.stage3.slots.length === 3 ? saved.stage3.slots : fresh.stage3.slots
+              },
+              stage4: {
+                connections: (saved.stage4 && saved.stage4.connections && typeof saved.stage4.connections === 'object') ? saved.stage4.connections : {}
+              },
+              stage5: {
+                slots: Array.isArray(saved.stage5 && saved.stage5.slots) && saved.stage5.slots.length === 3 ? saved.stage5.slots : fresh.stage5.slots
+              },
+              completedStages: Array.isArray(saved.completedStages) ? saved.completedStages : []
+            };
+          }
+        }
+      } catch (err) {
+        appState = createDefaultState();
+      }
+    }
+
+    /* =========================================================================
+       2. Synthesized Kid-Friendly Sound Effects (Web Audio API)
+       ========================================================================= */
+    function getAudioCtx() {
+      if (!audioCtx) {
+        const Ctx = window.AudioContext || window.webkitAudioContext;
+        if (Ctx) audioCtx = new Ctx();
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    function playTone(freq, startTime, duration, type, gainVal) {
+      const ctx = getAudioCtx();
+      if (!ctx) return;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = type || 'sine';
+      osc.frequency.setValueAtTime(freq, startTime);
+      gain.gain.setValueAtTime(0.001, startTime);
+      gain.gain.exponentialRampToValueAtTime(gainVal || 0.16, startTime + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(startTime);
+      osc.stop(startTime + duration + 0.02);
+    }
+
+    function playSound(kind) {
+      if (!appState.soundEnabled) return;
+      try {
+        const ctx = getAudioCtx();
+        if (!ctx) return;
+        const now = ctx.currentTime;
+        if (kind === 'pop') {
+          playTone(520, now, 0.09, 'sine', 0.12);
+        } else if (kind === 'correct') {
+          playTone(523.25, now, 0.12, 'triangle', 0.16);
+          playTone(659.25, now + 0.09, 0.14, 'triangle', 0.16);
+          playTone(783.99, now + 0.18, 0.22, 'triangle', 0.18);
+        } else if (kind === 'wrong') {
+          playTone(260, now, 0.14, 'sine', 0.12);
+          playTone(210, now + 0.12, 0.18, 'sine', 0.11);
+        } else if (kind === 'stageClear') {
+          const notes = [523.25, 659.25, 783.99, 1046.5];
+          notes.forEach(function (n, idx) {
+            playTone(n, now + idx * 0.1, 0.25, 'triangle', 0.18);
+          });
+        } else if (kind === 'fanfare') {
+          const melody = [
+            { f: 523.25, t: 0, d: 0.14 },
+            { f: 659.25, t: 0.13, d: 0.14 },
+            { f: 783.99, t: 0.26, d: 0.14 },
+            { f: 1046.5, t: 0.4, d: 0.28 },
+            { f: 783.99, t: 0.66, d: 0.14 },
+            { f: 1046.5, t: 0.8, d: 0.45 }
+          ];
+          melody.forEach(function (m) {
+            playTone(m.f, now + m.t, m.d, 'triangle', 0.2);
+          });
+        }
+      } catch (e) {
+        // Audio blocked or unsupported
+      }
+    }
+
+    function toggleSound() {
+      appState.soundEnabled = !appState.soundEnabled;
+      updateHeaderControls();
+      if (appState.soundEnabled) playSound('pop');
+      persistState();
+    }
+
+    /* =========================================================================
+       3. Stage Data Definitions
+       ========================================================================= */
+    const STAGE1_SENSES = [
+      { key: `color`, icon: `👀`, label: `眼睛看顏色`, answer: `綠油油` },
+      { key: `touch`, icon: `✋`, label: `用手摸觸感`, answer: `粗粗的` },
+      { key: `shape`, icon: `🔍`, label: `觀察葉片形狀`, answer: `心形` },
+      { key: `smell`, icon: `👃`, label: `鼻子聞氣味`, answer: `香香的` }
+    ];
+    const STAGE1_SENSE_CARDS = [`綠油油`, `粗粗的`, `心形`, `香香的`];
+
+    const STAGE1_SENTENCE_SLOTS = [
+      { key: `time`, label: `時間`, answer: `放學後` },
+      { key: `person`, label: `人物`, answer: `小明` },
+      { key: `place`, label: `地點`, answer: `花圃` },
+      { key: `adj`, label: `五感詞`, answer: `綠油油` }
+    ];
+    const STAGE1_SENTENCE_CARDS = [`放學後`, `小明`, `花圃`, `綠油油`, `教室`, `亮晶晶`];
+
+    const STAGE2_PUNCT_CARDS = [`：`, `「`, `！`, `」`];
+    const STAGE2_ANSWERS = [`：`, `「`, `！`, `」`];
+
+    const STAGE3_CARDS = [
+      {
+        id: `wind`,
+        text: `風兒輕輕一吹，蒲公英撐開白色小傘離開花朵。`,
+        answerSlot: 0
+      },
+      {
+        id: `fly`,
+        text: `種子乘著風，像降落傘一樣在空中飄呀飄。`,
+        answerSlot: 1
+      },
+      {
+        id: `sprout`,
+        text: `種子落到鬆軟的泥土裡，準備長出新芽。`,
+        answerSlot: 2
+      }
+    ];
+    const STAGE3_INITIAL_ORDER = [`fly`, `sprout`, `wind`];
+
+    const STAGE4_LEFT = [
+      { id: `l1`, text: `因為花朵散發甜甜香味`, icon: `🌸`, matchId: `r1`, colorVar: `--data-1` },
+      { id: `l2`, text: `因為大樹長出茂密綠葉`, icon: `🌳`, matchId: `r2`, colorVar: `--data-2` },
+      { id: `l3`, text: `因為毛毛蟲肚子餓了`, icon: `🐛`, matchId: `r3`, colorVar: `--data-3` }
+    ];
+    const STAGE4_RIGHT = [
+      { id: `r2`, text: `所以小鳥來樹上築巢乘涼`, icon: `🐦` },
+      { id: `r3`, text: `所以爬到葉子上吃嫩葉`, icon: `🍃` },
+      { id: `r1`, text: `所以蜜蜂飛來採蜜`, icon: `🐝` }
+    ];
+
+    const STAGE5_CARDS = [
+      `美化校園環境`,
+      `做成木製椅子`,
+      `提供美味果實`,
+      `飛到外太空去`,
+      `幫忙寫數學作業`
+    ];
+    const STAGE5_ANSWERS = [
+      `美化校園環境`,
+      `做成木製椅子`,
+      `提供美味果實`
+    ];
+
+    /* =========================================================================
+       4. Header, Navigation & Feedback Helpers
+       ========================================================================= */
+    function setFeedback(text, status) {
+      const box = document.getElementById('feedback-box');
+      if (!box) return;
+      box.className = 'feedback-box' + (status ? ' ' + status : '');
+      box.textContent = text;
+    }
+
+    function updateHeaderControls() {
+      const soundBtn = document.getElementById('sound-toggle-btn');
+      if (soundBtn) {
+        soundBtn.textContent = appState.soundEnabled ? `🔊 音效：開啟` : `🔇 音效：靜音`;
+      }
+      const viewCertBtn = document.getElementById('view-cert-btn');
+      if (viewCertBtn) {
+        viewCertBtn.style.display = appState.completedStages.length >= 5 ? 'inline-flex' : 'none';
+      }
+    }
+
+    function renderProgressUI() {
+      const completedCount = appState.completedStages.length;
+      const ratioEl = document.getElementById('progress-ratio');
+      if (ratioEl) ratioEl.textContent = `第 ${appState.currentStage} / 5 關`;
+
+      const starsCountEl = document.getElementById('stars-count-label');
+      if (starsCountEl) starsCountEl.textContent = `已收集 ${completedCount} / 5 顆星`;
+
+      const trackEl = document.getElementById('progress-track');
+      if (trackEl) trackEl.setAttribute('aria-valuenow', String(completedCount));
+
+      const fillEl = document.getElementById('progress-fill');
+      if (fillEl) {
+        const pct = Math.max(12, Math.round((completedCount / 5) * 100));
+        fillEl.style.width = pct + '%';
+      }
+
+      const starsTray = document.getElementById('stars-tray');
+      if (starsTray) {
+        let html = '';
+        for (let i = 1; i <= 5; i++) {
+          const isEarned = appState.completedStages.indexOf(i) !== -1;
+          const fill = isEarned ? 'var(--tertiary)' : 'var(--outline-variant)';
+          const stroke = isEarned ? 'var(--secondary)' : 'var(--outline)';
+          html += `<span class="star-badge ${isEarned ? 'earned' : ''}" title="第 ${i} 關星星">
+            <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2L14.9 8.2L21.7 9.1L16.7 13.8L18 20.5L12 17.2L6 20.5L7.3 13.8L2.3 9.1L9.1 8.2L12 2Z" fill="${fill}" stroke="${stroke}" stroke-width="1.6" stroke-linejoin="round"/>
+            </svg>
+          </span>`;
+        }
+        starsTray.innerHTML = html;
+      }
+
+      const navGrid = document.getElementById('stage-nav-grid');
+      if (navGrid) {
+        navGrid.innerHTML = STAGES_META.map(function (st) {
+          const isActive = !appState.viewingCertificate && appState.currentStage === st.id;
+          const isDone = appState.completedStages.indexOf(st.id) !== -1;
+          return `<button type="button" class="stage-tab ${isActive ? 'active' : ''} ${isDone ? 'completed' : ''}" onclick="switchStage(${st.id})">
+            <span class="stage-tab-num">${isDone ? '⭐' : '●'} 第 ${st.id} 關</span>
+            <span>${st.shortTitle}</span>
+          </button>`;
+        }).join('');
+      }
+    }
+
+    function switchStage(stageNum) {
+      appState.currentStage = stageNum;
+      appState.viewingCertificate = false;
+      activeSelection = null;
+      stage4SelectedLeft = null;
+      playSound('pop');
+      renderApp();
+      persistState();
+    }
+
+    function openCertificateView() {
+      appState.viewingCertificate = true;
+      playSound('fanfare');
+      renderApp();
+      persistState();
+    }
+
+    function backToStagesFromCert() {
+      appState.viewingCertificate = false;
+      playSound('pop');
+      renderApp();
+      persistState();
+    }
+
+    function goToNextStage() {
+      if (appState.currentStage < 5) {
+        switchStage(appState.currentStage + 1);
+      } else if (appState.completedStages.length >= 5) {
+        openCertificateView();
+      } else {
+        const firstIncomplete = [1, 2, 3, 4, 5].find(function (id) {
+          return appState.completedStages.indexOf(id) === -1;
+        });
+        if (firstIncomplete) switchStage(firstIncomplete);
+      }
+    }
+
+    function markStageComplete(stageNum) {
+      if (appState.completedStages.indexOf(stageNum) === -1) {
+        appState.completedStages.push(stageNum);
+        appState.completedStages.sort();
+      }
+      renderProgressUI();
+      updateHeaderControls();
+
+      const nextBtn = document.getElementById('next-stage-btn');
+      if (nextBtn) {
+        nextBtn.style.display = 'inline-flex';
+        if (appState.completedStages.length >= 5) {
+          nextBtn.textContent = `🏆 領取探險證書 ➔`;
+        } else {
+          nextBtn.textContent = stageNum < 5 ? `前往第 ${stageNum + 1} 關 ➔` : `前往未完成關卡 ➔`;
+        }
+      }
+
+      if (appState.completedStages.length >= 5) {
+        playSound('fanfare');
+      } else {
+        playSound('stageClear');
+      }
+      persistState();
+    }
+
+    function handleResetAll(btn) {
+      if (!btn) return;
+      if (btn.dataset.armed !== 'true') {
+        btn.dataset.armed = 'true';
+        btn.textContent = `⚠ 再點一次確認重玩`;
+        setTimeout(function () {
+          if (btn.dataset.armed === 'true') {
+            btn.dataset.armed = 'false';
+            btn.textContent = `🔄 重新闖關`;
+          }
+        }, 3500);
+        return;
+      }
+      btn.dataset.armed = 'false';
+      btn.textContent = `🔄 重新闖關`;
+      const keepSound = appState.soundEnabled;
+      const keepName = appState.explorerName;
+      appState = createDefaultState();
+      appState.soundEnabled = keepSound;
+      appState.explorerName = keepName;
+      activeSelection = null;
+      stage4SelectedLeft = null;
+      playSound('pop');
+      renderApp();
+      persistState();
+    }
+
+    function resetCurrentStage() {
+      const s = appState.currentStage;
+      const fresh = createDefaultState();
+      if (s === 1) appState.stage1 = fresh.stage1;
+      if (s === 2) appState.stage2 = fresh.stage2;
+      if (s === 3) appState.stage3 = fresh.stage3;
+      if (s === 4) appState.stage4 = fresh.stage4;
+      if (s === 5) appState.stage5 = fresh.stage5;
+      appState.completedStages = appState.completedStages.filter(function (id) { return id !== s; });
+      activeSelection = null;
+      stage4SelectedLeft = null;
+      playSound('pop');
+      renderApp();
+      setFeedback(`已清空第 ${s} 關，請重新挑戰看看！`, '');
+      persistState();
+    }
+
+    /* =========================================================================
+       5. Stage 1: 葉脈與五感大搜查
+       ========================================================================= */
+    function renderStage1(container) {
+      const s1 = appState.stage1;
+      const usedSenseValues = Object.values(s1.senses);
+      const usedSentenceValues = Object.values(s1.sentence);
+
+      const senseCardsHtml = STAGE1_SENSE_CARDS.map(function (word) {
+        const isUsed = usedSenseValues.indexOf(word) !== -1;
+        const isSel = activeSelection && activeSelection.stage === 1 && activeSelection.kind === 'sense' && activeSelection.value === word;
+        return `<button type="button" class="drag-chip ${isUsed ? 'used' : ''} ${isSel ? 'selected' : ''}"
+          draggable="${!isUsed}"
+          ondragstart="onDragStartItem(event, 1, 'sense', '${word}')"
+          onclick="selectTapChip(1, 'sense', '${word}')"
+          ${isUsed ? 'disabled' : ''}>${word}</button>`;
+      }).join('');
+
+      const senseGridHtml = STAGE1_SENSES.map(function (item) {
+        const val = s1.senses[item.key];
+        const isCorrect = val === item.answer;
+        const statusCls = val ? (isCorrect ? 'correct' : 'wrong') : '';
+        return `<div class="sense-card">
+          <div class="sense-info">
+            <span class="sense-badge" aria-hidden="true">${item.icon}</span>
+            <div>
+              <div style="font-weight: 800; color: var(--on-surface);">${item.label}</div>
+              <div style="font-size: 0.85rem; color: var(--on-surface-variant);">觀察校園葉片</div>
+            </div>
+          </div>
+          <button type="button" class="drop-slot ${val ? 'filled' : ''} ${statusCls}"
+            ondragover="onDragOverSlot(event)"
+            ondragleave="onDragLeaveSlot(event)"
+            ondrop="onDropStage1(event, 'sense', '${item.key}')"
+            onclick="clickStage1Slot('sense', '${item.key}')">
+            ${val || `點此放入`}
+          </button>
+        </div>`;
+      }).join('');
+
+      const sentenceCardsHtml = STAGE1_SENTENCE_CARDS.map(function (word) {
+        const isUsed = usedSentenceValues.indexOf(word) !== -1;
+        const isSel = activeSelection && activeSelection.stage === 1 && activeSelection.kind === 'sentence' && activeSelection.value === word;
+        return `<button type="button" class="drag-chip ${isUsed ? 'used' : ''} ${isSel ? 'selected' : ''}"
+          draggable="${!isUsed}"
+          ondragstart="onDragStartItem(event, 1, 'sentence', '${word}')"
+          onclick="selectTapChip(1, 'sentence', '${word}')"
+          ${isUsed ? 'disabled' : ''}>${word}</button>`;
+      }).join('');
+
+      function makeSentenceSlotHtml(slotKey, label, answer) {
+        const val = s1.sentence[slotKey];
+        const statusCls = val ? (val === answer ? 'correct' : 'wrong') : '';
+        return `<span style="display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin: 0 4px;">
+          <span class="element-tag">${label}</span>
+          <button type="button" class="drop-slot ${val ? 'filled' : ''} ${statusCls}"
+            ondragover="onDragOverSlot(event)"
+            ondragleave="onDragLeaveSlot(event)"
+            ondrop="onDropStage1(event, 'sentence', '${slotKey}')"
+            onclick="clickStage1Slot('sentence', '${slotKey}')">${val || `（${label}）`}</button>
+        </span>`;
+      }
+
+      container.innerHTML = `
+        <div class="work-panel">
+          <h3 class="panel-title">🔍 任務一：葉脈放大鏡五感配對</h3>
+          <div style="display:flex; flex-wrap:wrap; align-items:center; gap:var(--space-md); margin-bottom:var(--space-xs);">
+            <svg width="84" height="68" viewBox="0 0 90 72" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+              <path d="M18 54C16 28 36 10 70 14C66 44 46 60 18 54Z" fill="var(--illus-leaf-bright)" stroke="var(--illus-leaf-dark)" stroke-width="2.5"/>
+              <path d="M12 58L60 20" stroke="var(--illus-leaf-dark)" stroke-width="2.5" stroke-linecap="round"/>
+              <path d="M32 42L28 28M44 33L40 20M36 39L50 40M46 31L58 32" stroke="var(--illus-leaf-dark)" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <span style="font-weight:700; color:var(--on-surface-variant);">把下面的五感詞卡拖曳（或點選）放進對應的五感格子中：</span>
+          </div>
+          <div class="chip-tray">${senseCardsHtml}</div>
+          <div class="sense-grid">${senseGridHtml}</div>
+        </div>
+
+        <div class="work-panel">
+          <h3 class="panel-title">✏️ 任務二：完成「四要素」觀察句子</h3>
+          <div class="chip-tray">${sentenceCardsHtml}</div>
+          <div class="sentence-builder-box">
+            ${makeSentenceSlotHtml('time', '時間', '放學後')}，
+            ${makeSentenceSlotHtml('person', '人物', '小明')}在
+            ${makeSentenceSlotHtml('place', '地點', '花圃')}看見
+            ${makeSentenceSlotHtml('adj', '五感詞', '綠油油')}的葉子。
+          </div>
+        </div>
+      `;
+    }
+
+    function placeStage1(kind, slotKey, value) {
+      if (kind === 'sense') {
+        appState.stage1.senses[slotKey] = value;
+      } else {
+        appState.stage1.sentence[slotKey] = value;
+      }
+      activeSelection = null;
+      playSound('pop');
+      renderApp();
+      persistState();
+    }
+
+    function clickStage1Slot(kind, slotKey) {
+      if (activeSelection && activeSelection.stage === 1 && activeSelection.kind === kind) {
+        placeStage1(kind, slotKey, activeSelection.value);
+        return;
+      }
+      const currentVal = kind === 'sense' ? appState.stage1.senses[slotKey] : appState.stage1.sentence[slotKey];
+      if (currentVal) {
+        if (kind === 'sense') appState.stage1.senses[slotKey] = ``;
+        else appState.stage1.sentence[slotKey] = ``;
+        playSound('pop');
+        renderApp();
+        persistState();
+      } else {
+        setFeedback(`請先點選上方的一張詞卡，再點進這個空格喔！`, '');
+      }
+    }
+
+    function onDropStage1(ev, kind, slotKey) {
+      ev.preventDefault();
+      if (ev.currentTarget) ev.currentTarget.classList.remove('drag-over');
+      const raw = ev.dataTransfer ? ev.dataTransfer.getData('text/plain') : '';
+      if (!raw) return;
+      try {
+        const payload = JSON.parse(raw);
+        if (payload.stage === 1 && payload.kind === kind) {
+          placeStage1(kind, slotKey, payload.value);
+        }
+      } catch (e) {}
+    }
+
+    function checkStage1() {
+      const s1 = appState.stage1;
+      const senseOk = STAGE1_SENSES.every(function (item) {
+        return s1.senses[item.key] === item.answer;
+      });
+      const sentOk = STAGE1_SENTENCE_SLOTS.every(function (item) {
+        return s1.sentence[item.key] === item.answer;
+      });
+
+      if (senseOk && sentOk) {
+        setFeedback(`🌟 太厲害了！「放學後，小明在花圃看見綠油油的葉子。」五感和四要素全部答對，獲得第 1 顆星星！`, 'success');
+        markStageComplete(1);
+      } else if (!senseOk) {
+        playSound('wrong');
+        setFeedback(`🔍 再檢查一下任務一的五感詞卡喔！紅框的地方再想想看，點紅框可以拿出來重放。`, 'error');
+      } else {
+        playSound('wrong');
+        setFeedback(`✏️ 任務一完成得很棒！再看看任務二的句子：「放學後，小明在花圃看見綠油油的葉子。」`, 'error');
+      }
+    }
+
+    /* =========================================================================
+       6. Stage 2: 花花對話標點診所
+       ========================================================================= */
+    function renderStage2(container) {
+      const slots = appState.stage2.slots;
+
+      const pillsHtml = STAGE2_PUNCT_CARDS.map(function (sym) {
+        const isUsed = slots.indexOf(sym) !== -1;
+        const isSel = activeSelection && activeSelection.stage === 2 && activeSelection.value === sym;
+        return `<button type="button" class="drag-chip ${isUsed ? 'used' : ''} ${isSel ? 'selected' : ''}"
+          draggable="${!isUsed}"
+          ondragstart="onDragStartItem(event, 2, 'punct', '${sym}')"
+          onclick="selectTapChip(2, 'punct', '${sym}')"
+          ${isUsed ? 'disabled' : ''}>${sym}</button>`;
+      }).join('');
+
+      function makePunctSlot(idx, label) {
+        const val = slots[idx];
+        const statusCls = val ? (val === STAGE2_ANSWERS[idx] ? 'correct' : 'wrong') : '';
+        return `<button type="button" class="punct-slot ${val ? 'filled' : ''} ${statusCls}"
+          aria-label="標點空位 ${idx + 1}：${label}"
+          ondragover="onDragOverSlot(event)"
+          ondragleave="onDragLeaveSlot(event)"
+          ondrop="onDropStage2(event, ${idx})"
+          onclick="clickStage2Slot(${idx})">${val || `（ ）`}</button>`;
+      }
+
+      container.innerHTML = `
+        <div class="work-panel">
+          <div class="clinic-scene">
+            <div class="clinic-illus-box">
+              <svg width="150" height="145" viewBox="0 0 150 145" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+                <!-- Cute Rabbit Huahua -->
+                <ellipse cx="46" cy="40" rx="11" ry="26" fill="var(--illus-rabbit)" stroke="var(--on-surface)" stroke-width="2.5"/>
+                <ellipse cx="46" cy="42" rx="5.5" ry="17" fill="var(--illus-rabbit-ear)"/>
+                <ellipse cx="76" cy="40" rx="11" ry="26" fill="var(--illus-rabbit)" stroke="var(--on-surface)" stroke-width="2.5"/>
+                <ellipse cx="76" cy="42" rx="5.5" ry="17" fill="var(--illus-rabbit-ear)"/>
+                <circle cx="61" cy="82" r="28" fill="var(--illus-rabbit)" stroke="var(--on-surface)" stroke-width="2.5"/>
+                <circle cx="51" cy="78" r="3.5" fill="var(--on-surface)"/>
+                <circle cx="71" cy="78" r="3.5" fill="var(--on-surface)"/>
+                <ellipse cx="61" cy="85" rx="4" ry="2.5" fill="var(--illus-rose)"/>
+                <path d="M55 91C58 95 64 95 67 91" stroke="var(--on-surface)" stroke-width="2.5" stroke-linecap="round"/>
+                <!-- Blooming Rose -->
+                <path d="M116 130V88" stroke="var(--illus-stem)" stroke-width="4" stroke-linecap="round"/>
+                <path d="M116 112C106 106 103 98 111 98C115 98 117 104 116 112Z" fill="var(--illus-leaf-bright)"/>
+                <circle cx="116" cy="76" r="16" fill="var(--illus-rose)"/>
+                <path d="M108 74C112 67 122 68 123 76C124 83 114 86 110 80" stroke="var(--illus-rose-dark)" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+              </svg>
+            </div>
+
+            <div class="speech-bubble">
+              小兔花花親切地說
+              ${makePunctSlot(0, '準備說話')}
+              ${makePunctSlot(1, '對話開始')}這朵玫瑰花好漂亮啊${makePunctSlot(2, '驚嘆語氣')}
+              ${makePunctSlot(3, '對話結束')}
+            </div>
+          </div>
+
+          <h3 class="panel-title">💊 標點符號小藥丸（點選或拖曳放進括號）</h3>
+          <div class="chip-tray">${pillsHtml}</div>
+
+          <div class="punct-hint-grid">
+            <div class="punct-hint-item"><strong>：冒號</strong>：放在「說」後面，代表要開始講話囉！</div>
+            <div class="punct-hint-item"><strong>「 上引號</strong>：對話開始的門牌。</div>
+            <div class="punct-hint-item"><strong>！驚嘆號</strong>：表達好漂亮、好驚喜的心情。</div>
+            <div class="punct-hint-item"><strong>」 下引號</strong>：對話說完要關門囉！</div>
+          </div>
+        </div>
+      `;
+    }
+
+    function placeStage2(idx, val) {
+      appState.stage2.slots[idx] = val;
+      activeSelection = null;
+      playSound('pop');
+      renderApp();
+      persistState();
+    }
+
+    function clickStage2Slot(idx) {
+      if (activeSelection && activeSelection.stage === 2) {
+        placeStage2(idx, activeSelection.value);
+        return;
+      }
+      if (appState.stage2.slots[idx]) {
+        appState.stage2.slots[idx] = ``;
+        playSound('pop');
+        renderApp();
+        persistState();
+      } else {
+        setFeedback(`請先點選一個標點符號小藥丸，再點進括號裡！`, '');
+      }
+    }
+
+    function onDropStage2(ev, idx) {
+      ev.preventDefault();
+      if (ev.currentTarget) ev.currentTarget.classList.remove('drag-over');
+      const raw = ev.dataTransfer ? ev.dataTransfer.getData('text/plain') : '';
+      if (!raw) return;
+      try {
+        const payload = JSON.parse(raw);
+        if (payload.stage === 2) {
+          placeStage2(idx, payload.value);
+        }
+      } catch (e) {}
+    }
+
+    function checkStage2() {
+      const ok = STAGE2_ANSWERS.every(function (ans, idx) {
+        return appState.stage2.slots[idx] === ans;
+      });
+      if (ok) {
+        setFeedback(`🌸 診療成功！「小兔花花親切地說：「這朵玫瑰花好漂亮啊！」」標點完全正確，獲得第 2 顆星星！`, 'success');
+        markStageComplete(2);
+      } else {
+        playSound('wrong');
+        setFeedback(`🩺 還有括號裡的標點位置不太對喔！點一下紅色括號拿出來，再看看下方的標點小提示。`, 'error');
+      }
+    }
+
+    /* =========================================================================
+       7. Stage 3: 種子飛行順序拼圖
+       ========================================================================= */
+    function getStage3Svg(cardId) {
+      if (cardId === 'wind') {
+        return `<svg width="96" height="72" viewBox="0 0 96 72" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 24H42C47 24 47 17 42 17" stroke="var(--illus-sky)" stroke-width="3.5" stroke-linecap="round"/>
+          <path d="M8 34H36" stroke="var(--illus-sky)" stroke-width="3.5" stroke-linecap="round"/>
+          <path d="M62 66V38" stroke="var(--illus-stem)" stroke-width="3.5" stroke-linecap="round"/>
+          <circle cx="62" cy="30" r="14" fill="var(--surface-container-low)" stroke="var(--outline)" stroke-width="2" stroke-dasharray="3 3"/>
+          <circle cx="62" cy="30" r="5" fill="var(--illus-sun)"/>
+          <path d="M74 18L84 12M80 10L88 15" stroke="var(--on-surface-variant)" stroke-width="2" stroke-linecap="round"/>
+        </svg>`;
+      }
+      if (cardId === 'fly') {
+        return `<svg width="96" height="72" viewBox="0 0 96 72" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+          <rect x="6" y="6" width="84" height="60" rx="14" fill="var(--illus-sky)"/>
+          <ellipse cx="26" cy="24" rx="12" ry="7" fill="var(--illus-cloud)"/>
+          <ellipse cx="72" cy="48" rx="13" ry="7" fill="var(--illus-cloud)"/>
+          <path d="M40 24C44 17 56 17 60 24" stroke="var(--on-surface)" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M50 20V38" stroke="var(--on-surface)" stroke-width="2.2" stroke-linecap="round"/>
+          <ellipse cx="50" cy="41" rx="3" ry="5" fill="var(--illus-soil)"/>
+        </svg>`;
+      }
+      return `<svg width="96" height="72" viewBox="0 0 96 72" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8 54C24 46 72 46 88 54V66H8V54Z" fill="var(--illus-soil)"/>
+        <path d="M48 50V30" stroke="var(--illus-leaf-dark)" stroke-width="3.5" stroke-linecap="round"/>
+        <path d="M48 36C48 26 58 22 64 26C62 34 54 38 48 36Z" fill="var(--illus-leaf-bright)"/>
+        <path d="M48 36C48 26 38 22 32 26C34 34 42 38 48 36Z" fill="var(--illus-leaf-mid)"/>
+      </svg>`;
+    }
+
+    function renderStage3(container) {
+      const slots = appState.stage3.slots;
+      const orderLabels = [`1. 先……`, `2. 接著……`, `3. 最後……`];
+
+      const slotsHtml = slots.map(function (cardId, idx) {
+        const card = STAGE3_CARDS.find(function (c) { return c.id === cardId; });
+        const isCorrect = card && card.answerSlot === idx;
+        const statusCls = card ? (isCorrect ? 'correct' : 'wrong') : '';
+        return `<div class="seq-slot-card ${card ? 'filled' : ''} ${statusCls}"
+          tabindex="0"
+          role="button"
+          ondragover="onDragOverSlot(event)"
+          ondragleave="onDragLeaveSlot(event)"
+          ondrop="onDropStage3(event, ${idx})"
+          onclick="clickStage3Slot(${idx})">
+          <span class="seq-badge">${orderLabels[idx]}</span>
+          ${card ? `${getStage3Svg(card.id)}<div style="font-weight:700; font-size:0.98rem;">${card.text}</div>` : `<div style="margin:auto; color:var(--on-surface-variant); font-weight:700;">把圖卡放進這裡</div>`}
+        </div>`;
+      }).join('');
+
+      const trayCardsHtml = STAGE3_INITIAL_ORDER.map(function (id) {
+        const card = STAGE3_CARDS.find(function (c) { return c.id === id; });
+        const isUsed = slots.indexOf(id) !== -1;
+        const isSel = activeSelection && activeSelection.stage === 3 && activeSelection.value === id;
+        return `<button type="button" class="puzzle-card ${isUsed ? 'used' : ''} ${isSel ? 'selected' : ''}"
+          draggable="${!isUsed}"
+          ondragstart="onDragStartItem(event, 3, 'seq', '${id}')"
+          onclick="selectTapChip(3, 'seq', '${id}')"
+          ${isUsed ? 'disabled' : ''}>
+          ${getStage3Svg(id)}
+          <span>${card ? card.text : ''}</span>
+        </button>`;
+      }).join('');
+
+      container.innerHTML = `
+        <div class="work-panel">
+          <h3 class="panel-title">🌬️ 蒲公英種子旅行順序軌道</h3>
+          <div class="sequence-slots">${slotsHtml}</div>
+        </div>
+
+        <div class="work-panel">
+          <h3 class="panel-title">🧩 蒲公英故事圖卡（點選或拖曳到上方順序格）</h3>
+          <div class="puzzle-cards-tray">${trayCardsHtml}</div>
+        </div>
+      `;
+    }
+
+    function placeStage3(idx, cardId) {
+      appState.stage3.slots[idx] = cardId;
+      activeSelection = null;
+      playSound('pop');
+      renderApp();
+      persistState();
+    }
+
+    function clickStage3Slot(idx) {
+      if (activeSelection && activeSelection.stage === 3) {
+        placeStage3(idx, activeSelection.value);
+        return;
+      }
+      if (appState.stage3.slots[idx]) {
+        appState.stage3.slots[idx] = ``;
+        playSound('pop');
+        renderApp();
+        persistState();
+      } else {
+        setFeedback(`請先點選下方一張蒲公英圖卡，再點上方第 ${idx + 1} 格！`, '');
+      }
+    }
+
+    function onDropStage3(ev, idx) {
+      ev.preventDefault();
+      if (ev.currentTarget) ev.currentTarget.classList.remove('drag-over');
+      const raw = ev.dataTransfer ? ev.dataTransfer.getData('text/plain') : '';
+      if (!raw) return;
+      try {
+        const payload = JSON.parse(raw);
+        if (payload.stage === 3) {
+          placeStage3(idx, payload.value);
+        }
+      } catch (e) {}
+    }
+
+    function checkStage3() {
+      const slots = appState.stage3.slots;
+      const ok = slots[0] === 'wind' && slots[1] === 'fly' && slots[2] === 'sprout';
+      if (ok) {
+        setFeedback(`🌬️ 順序完全正確！「先被風吹離花朵，接著在空中飄呀飄，最後落到泥土發芽！」獲得第 3 顆星星！`, 'success');
+        markStageComplete(3);
+      } else {
+        playSound('wrong');
+        setFeedback(`🌱 順序還有一點小顛倒喔！想一想：風先吹，接著在天空飛，最後才會落地長新芽。`, 'error');
+      }
+    }
+
+    /* =========================================================================
+       8. Stage 4: 生態好夥伴因果連連看
+       ========================================================================= */
+    function renderStage4(container) {
+      const conns = appState.stage4.connections;
+
+      const leftHtml = STAGE4_LEFT.map(function (item) {
+        const isMatched = Boolean(conns[item.id]);
+        const isSelected = stage4SelectedLeft === item.id;
+        return `<button type="button" id="match-left-${item.id}"
+          class="match-node left-node ${isMatched ? 'matched' : ''} ${isSelected ? 'selected' : ''}"
+          onclick="clickStage4Left('${item.id}')">
+          <span>${item.icon} ${item.text}</span>
+          <span class="match-dot" aria-hidden="true"></span>
+        </button>`;
+      }).join('');
+
+      const rightHtml = STAGE4_RIGHT.map(function (item) {
+        const isMatched = Object.values(conns).indexOf(item.id) !== -1;
+        return `<button type="button" id="match-right-${item.id}"
+          class="match-node right-node ${isMatched ? 'matched' : ''}"
+          onclick="clickStage4Right('${item.id}')">
+          <span class="match-dot" aria-hidden="true"></span>
+          <span>${item.icon} ${item.text}</span>
+        </button>`;
+      }).join('');
+
+      const matchedPairs = STAGE4_LEFT.filter(function (l) {
+        return conns[l.id] === l.matchId;
+      });
+
+      const summaryHtml = matchedPairs.length > 0 ? `<div class="work-panel">
+        <h3 class="panel-title">💬 已連好的因果句</h3>
+        <div style="display:grid; gap:var(--space-xs);">
+          ${matchedPairs.map(function (l) {
+            const r = STAGE4_RIGHT.find(function (x) { return x.id === l.matchId; });
+            return `<div style="background:var(--surface-container-low); padding:var(--space-sm) var(--space-md); border-radius:var(--rounded-sm); font-weight:700;">
+              ✔ ${l.text}，${r ? r.text : ''}。
+            </div>`;
+          }).join('')}
+        </div>
+      </div>` : '';
+
+      container.innerHTML = `
+        <div class="match-board" id="match-board">
+          <svg class="match-svg-layer" id="match-svg-layer" aria-hidden="true"></svg>
+          <div class="match-columns">
+            <div class="match-col">
+              <div class="match-col-header">原因（因為……）</div>
+              ${leftHtml}
+            </div>
+            <div aria-hidden="true"></div>
+            <div class="match-col">
+              <div class="match-col-header">結果（所以……）</div>
+              ${rightHtml}
+            </div>
+          </div>
+        </div>
+        ${summaryHtml}
+      `;
+
+      requestAnimationFrame(drawStage4Lines);
+    }
+
+    function drawStage4Lines() {
+      const board = document.getElementById('match-board');
+      const svg = document.getElementById('match-svg-layer');
+      if (!board || !svg) return;
+      const bRect = board.getBoundingClientRect();
+      if (bRect.width === 0) return;
+
+      let paths = '';
+      STAGE4_LEFT.forEach(function (item) {
+        const rightId = appState.stage4.connections[item.id];
+        if (!rightId) return;
+        const leftEl = document.getElementById('match-left-' + item.id);
+        const rightEl = document.getElementById('match-right-' + rightId);
+        if (!leftEl || !rightEl) return;
+
+        const lRect = leftEl.getBoundingClientRect();
+        const rRect = rightEl.getBoundingClientRect();
+        const x1 = lRect.right - bRect.left - 8;
+        const y1 = lRect.top + lRect.height / 2 - bRect.top;
+        const x2 = rRect.left - bRect.left + 8;
+        const y2 = rRect.top + rRect.height / 2 - bRect.top;
+        const cx = (x1 + x2) / 2;
+
+        paths += `<path d="M ${x1} ${y1} C ${cx} ${y1}, ${cx} ${y2}, ${x2} ${y2}"
+          stroke="var(${item.colorVar})" stroke-width="5" stroke-linecap="round" fill="none"/>`;
+      });
+      svg.innerHTML = paths;
+    }
+
+    function clickStage4Left(leftId) {
+      stage4SelectedLeft = (stage4SelectedLeft === leftId) ? null : leftId;
+      playSound('pop');
+      renderApp();
+    }
+
+    function clickStage4Right(rightId) {
+      if (!stage4SelectedLeft) {
+        setFeedback(`👆 請先點選左邊的一張「因為……」原因卡，再點右邊的「所以……」喔！`, '');
+        return;
+      }
+      const leftItem = STAGE4_LEFT.find(function (l) { return l.id === stage4SelectedLeft; });
+      if (!leftItem) return;
+
+      if (leftItem.matchId === rightId) {
+        appState.stage4.connections[leftItem.id] = rightId;
+        stage4SelectedLeft = null;
+        playSound('correct');
+        renderApp();
+        persistState();
+
+        const allDone = STAGE4_LEFT.every(function (l) {
+          return appState.stage4.connections[l.id] === l.matchId;
+        });
+        if (allDone) {
+          setFeedback(`🐝 太棒了！你成功幫花朵、大樹和葉子都找到生態好夥伴了，獲得第 4 顆星星！`, 'success');
+          markStageComplete(4);
+        } else {
+          setFeedback(`✔ 連線成功！「${leftItem.text}」，真是天生一對的生態好夥伴！`, 'success');
+        }
+      } else {
+        playSound('wrong');
+        const rBtn = document.getElementById('match-right-' + rightId);
+        if (rBtn) {
+          rBtn.classList.add('wrong');
+          setTimeout(function () { rBtn.classList.remove('wrong'); }, 350);
+        }
+        setFeedback(`💡 再想一想喔！「${leftItem.text}」會吸引哪一位小動物呢？`, 'error');
+      }
+    }
+
+    function checkStage4() {
+      const allDone = STAGE4_LEFT.every(function (l) {
+        return appState.stage4.connections[l.id] === l.matchId;
+      });
+      if (allDone) {
+        setFeedback(`🐝 全部 3 組生態因果都連線成功了，獲得第 4 顆星星！`, 'success');
+        markStageComplete(4);
+      } else {
+        playSound('wrong');
+        setFeedback(`🔗 還有好夥伴還沒牽上手喔！請先點左邊「因為」，再點右邊「所以」把它們連起來。`, 'error');
+      }
+    }
+
+    /* =========================================================================
+       9. Stage 5: 植物變身大魔法
+       ========================================================================= */
+    function renderStage5(container) {
+      const slots = appState.stage5.slots;
+
+      const cardsHtml = STAGE5_CARDS.map(function (word) {
+        const isUsed = slots.indexOf(word) !== -1;
+        const isSel = activeSelection && activeSelection.stage === 5 && activeSelection.value === word;
+        return `<button type="button" class="drag-chip ${isUsed ? 'used' : ''} ${isSel ? 'selected' : ''}"
+          draggable="${!isUsed}"
+          ondragstart="onDragStartItem(event, 5, 'magic', '${word}')"
+          onclick="selectTapChip(5, 'magic', '${word}')"
+          ${isUsed ? 'disabled' : ''}>✨ ${word}</button>`;
+      }).join('');
+
+      function makeMagicSlot(idx, iconClue) {
+        const val = slots[idx];
+        const statusCls = val ? (val === STAGE5_ANSWERS[idx] ? 'correct' : 'wrong') : '';
+        return `<span class="magic-blank-group">
+          <span class="magic-clue" aria-hidden="true">${iconClue}</span>
+          <button type="button" class="drop-slot ${val ? 'filled' : ''} ${statusCls}"
+            ondragover="onDragOverSlot(event)"
+            ondragleave="onDragLeaveSlot(event)"
+            ondrop="onDropStage5(event, ${idx})"
+            onclick="clickStage5Slot(${idx})">${val || `（點此填入）`}</button>
+        </span>`;
+      }
+
+      container.innerHTML = `
+        <div class="work-panel">
+          <h3 class="panel-title">🪄 魔法詞卡寶庫（點選或拖曳進句子）</h3>
+          <div class="chip-tray">${cardsHtml}</div>
+        </div>
+
+        <div class="magic-sentence-card">
+          校園植物的用處很多，有的可以
+          ${makeMagicSlot(0, '🌸')}，有的可以
+          ${makeMagicSlot(1, '🪑')}，還有可以
+          ${makeMagicSlot(2, '🍎')}。
+        </div>
+      `;
+    }
+
+    function placeStage5(idx, val) {
+      appState.stage5.slots[idx] = val;
+      activeSelection = null;
+      playSound('pop');
+      renderApp();
+      persistState();
+    }
+
+    function clickStage5Slot(idx) {
+      if (activeSelection && activeSelection.stage === 5) {
+        placeStage5(idx, activeSelection.value);
+        return;
+      }
+      if (appState.stage5.slots[idx]) {
+        appState.stage5.slots[idx] = ``;
+        playSound('pop');
+        renderApp();
+        persistState();
+      } else {
+        setFeedback(`請先點選上方的一張「魔法詞卡」，再點進句子空格裡！`, '');
+      }
+    }
+
+    function onDropStage5(ev, idx) {
+      ev.preventDefault();
+      if (ev.currentTarget) ev.currentTarget.classList.remove('drag-over');
+      const raw = ev.dataTransfer ? ev.dataTransfer.getData('text/plain') : '';
+      if (!raw) return;
+      try {
+        const payload = JSON.parse(raw);
+        if (payload.stage === 5) {
+          placeStage5(idx, payload.value);
+        }
+      } catch (e) {}
+    }
+
+    function checkStage5() {
+      const ok = STAGE5_ANSWERS.every(function (ans, idx) {
+        return appState.stage5.slots[idx] === ans;
+      });
+      if (ok) {
+        setFeedback(`🪄 魔法成功！「校園植物的用處很多，有的可以美化校園環境，有的可以做成木製椅子，還有可以提供美味果實。」獲得第 5 顆星星！`, 'success');
+        markStageComplete(5);
+      } else {
+        playSound('wrong');
+        setFeedback(`💡 有些詞卡不對喔！看看旁邊的小圖示提示：🌸 花朵、🪑 椅子、🍎 果實，再選一次！`, 'error');
+      }
+    }
+
+    /* =========================================================================
+       10. Shared Drag & Tap Handlers + Stage Router
+       ========================================================================= */
+    function onDragStartItem(ev, stage, kind, value) {
+      activeSelection = { stage: stage, kind: kind, value: value };
+      if (ev.dataTransfer) {
+        ev.dataTransfer.setData('text/plain', JSON.stringify(activeSelection));
+        ev.dataTransfer.effectAllowed = 'move';
+      }
+    }
+
+    function onDragOverSlot(ev) {
+      ev.preventDefault();
+      if (ev.currentTarget) ev.currentTarget.classList.add('drag-over');
+    }
+
+    function onDragLeaveSlot(ev) {
+      if (ev.currentTarget) ev.currentTarget.classList.remove('drag-over');
+    }
+
+    function selectTapChip(stage, kind, value) {
+      if (activeSelection && activeSelection.stage === stage && activeSelection.kind === kind && activeSelection.value === value) {
+        activeSelection = null;
+      } else {
+        activeSelection = { stage: stage, kind: kind, value: value };
+        playSound('pop');
+        setFeedback(`已選取「${value}」，現在點一下想放入的空格吧！`, '');
+      }
+      renderCurrentStageOnly();
+    }
+
+    function checkCurrentStage() {
+      const s = appState.currentStage;
+      if (s === 1) checkStage1();
+      if (s === 2) checkStage2();
+      if (s === 3) checkStage3();
+      if (s === 4) checkStage4();
+      if (s === 5) checkStage5();
+    }
+
+    function renderCurrentStageOnly() {
+      const meta = STAGES_META.find(function (m) { return m.id === appState.currentStage; }) || STAGES_META[0];
+      const kickerEl = document.getElementById('stage-kicker');
+      const titleEl = document.getElementById('stage-title');
+      const instEl = document.getElementById('stage-instruction');
+      const statusEl = document.getElementById('stage-status-pill');
+      const bodyEl = document.getElementById('stage-body');
+      const nextBtn = document.getElementById('next-stage-btn');
+      const checkBtn = document.getElementById('check-stage-btn');
+
+      if (kickerEl) kickerEl.textContent = meta.kicker;
+      if (titleEl) titleEl.textContent = meta.title;
+      if (instEl) instEl.textContent = meta.instruction;
+
+      const isDone = appState.completedStages.indexOf(meta.id) !== -1;
+      if (statusEl) {
+        statusEl.textContent = isDone ? `⭐ 已獲得星星` : `🌟 挑戰進行中`;
+      }
+      if (nextBtn) {
+        nextBtn.style.display = isDone ? 'inline-flex' : 'none';
+        if (isDone) {
+          nextBtn.textContent = appState.completedStages.length >= 5
+            ? `🏆 領取探險證書 ➔`
+            : (meta.id < 5 ? `前往第 ${meta.id + 1} 關 ➔` : `前往未完成關卡 ➔`);
+        }
+      }
+      if (checkBtn) {
+        checkBtn.style.display = meta.id === 4 ? 'none' : 'inline-flex';
+      }
+
+      if (!bodyEl) return;
+      if (meta.id === 1) renderStage1(bodyEl);
+      if (meta.id === 2) renderStage2(bodyEl);
+      if (meta.id === 3) renderStage3(bodyEl);
+      if (meta.id === 4) renderStage4(bodyEl);
+      if (meta.id === 5) renderStage5(bodyEl);
+    }
+
+    function renderApp() {
+      updateHeaderControls();
+      renderProgressUI();
+
+      const stageWs = document.getElementById('stage-workspace');
+      const certSec = document.getElementById('certificate-section');
+
+      if (appState.viewingCertificate && appState.completedStages.length >= 5) {
+        if (stageWs) stageWs.style.display = 'none';
+        if (certSec) certSec.classList.add('active');
+        syncCertificateView();
+      } else {
+        if (stageWs) stageWs.style.display = 'grid';
+        if (certSec) certSec.classList.remove('active');
+        renderCurrentStageOnly();
+      }
+    }
+
+    /* =========================================================================
+       11. Certificate Name Sync & Text/Print Export
+       ========================================================================= */
+    function updateExplorerName(val) {
+      appState.explorerName = val.trim() || `小小探險家`;
+      const nameEl = document.getElementById('cert-recipient-name');
+      if (nameEl) nameEl.textContent = appState.explorerName;
+      persistState();
+    }
+
+    function syncCertificateView() {
+      const inputEl = document.getElementById('explorer-name-input');
+      const nameEl = document.getElementById('cert-recipient-name');
+      if (inputEl && inputEl.value !== appState.explorerName) {
+        inputEl.value = appState.explorerName;
+      }
+      if (nameEl) {
+        nameEl.textContent = appState.explorerName || `小小探險家`;
+      }
+      const dateEl = document.getElementById('cert-date-label');
+      if (dateEl) {
+        const d = new Date();
+        dateEl.textContent = `頒發日期：${d.getFullYear()} 年 ${d.getMonth() + 1} 月 ${d.getDate()} 日`;
+      }
+    }
+
+    function downloadCertificatePng() {
+      const canvas = document.createElement('canvas');
+      canvas.width = 1200;
+      canvas.height = 840;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) {
+        window.print();
+        return;
+      }
+
+      const styles = getComputedStyle(document.documentElement);
+      const bgMint = styles.getPropertyValue('--background').trim() || 'mintcream';
+      const cardWhite = styles.getPropertyValue('--surface-container-low').trim() || 'white';
+      const yellowFill = styles.getPropertyValue('--surface-container').trim() || 'lemonchiffon';
+      const greenPrimary = styles.getPropertyValue('--primary').trim() || 'seagreen';
+      const goldStar = styles.getPropertyValue('--tertiary').trim() || 'gold';
+      const inkDark = styles.getPropertyValue('--on-surface').trim() || 'darkslategray';
+
+      ctx.fillStyle = bgMint;
+      ctx.fillRect(0, 0, 1200, 840);
+
+      ctx.fillStyle = cardWhite;
+      ctx.strokeStyle = greenPrimary;
+      ctx.lineWidth = 14;
+      ctx.beginPath();
+      if (typeof ctx.roundRect === 'function') {
+        ctx.roundRect(48, 48, 1104, 744, 36);
+      } else {
+        ctx.rect(48, 48, 1104, 744);
+      }
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = yellowFill;
+      ctx.strokeStyle = goldStar;
+      ctx.lineWidth = 6;
+      ctx.setLineDash([16, 10]);
+      ctx.beginPath();
+      if (typeof ctx.roundRect === 'function') {
+        ctx.roundRect(80, 80, 1040, 680, 24);
+      } else {
+        ctx.rect(80, 80, 1040, 680);
+      }
+      ctx.fill();
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      ctx.textAlign = 'center';
+      ctx.fillStyle = greenPrimary;
+      ctx.font = 'bold 28px sans-serif';
+      ctx.fillText('拈花惹草：校園植物大探險 · 榮譽獎狀', 600, 165);
+
+      ctx.font = 'bold 58px sans-serif';
+      ctx.fillText('校園植物大探險家', 600, 245);
+
+      ctx.fillStyle = inkDark;
+      ctx.font = 'bold 48px sans-serif';
+      ctx.fillText(appState.explorerName || '小小探險家', 600, 345);
+
+      ctx.strokeStyle = goldStar;
+      ctx.lineWidth = 5;
+      ctx.beginPath();
+      ctx.moveTo(410, 365);
+      ctx.lineTo(790, 365);
+      ctx.stroke();
+
+      ctx.font = 'bold 26px sans-serif';
+      ctx.fillText('用心張開五感觀察校園植物，完成全部五大關卡任務，特頒此證書！', 600, 430);
+
+      const badges = [
+        '⭐ 1. 五感與四要素觀察家',
+        '⭐ 2. 花花對話標點小醫師',
+        '⭐ 3. 種子飛行順序小導遊',
+        '⭐ 4. 生態因果好夥伴偵探',
+        '⭐ 5. 植物變身說明魔法師'
+      ];
+      ctx.font = 'bold 23px sans-serif';
+      badges.forEach(function (b, idx) {
+        ctx.fillStyle = cardWhite;
+        ctx.beginPath();
+        if (typeof ctx.roundRect === 'function') {
+          ctx.roundRect(160 + (idx % 2) * 450, 475 + Math.floor(idx / 2) * 62, 420, 48, 16);
+        } else {
+          ctx.rect(160 + (idx % 2) * 450, 475 + Math.floor(idx / 2) * 62, 420, 48);
+        }
+        ctx.fill();
+        ctx.fillStyle = greenPrimary;
+        ctx.fillText(b, 370 + (idx % 2) * 450, 507 + Math.floor(idx / 2) * 62);
+      });
+
+      const d = new Date();
+      ctx.fillStyle = inkDark;
+      ctx.font = 'bold 22px sans-serif';
+      ctx.fillText(`頒發日期：${d.getFullYear()} 年 ${d.getMonth() + 1} 月 ${d.getDate()} 日   |   🌿 校園植物探險隊認證`, 600, 715);
+
+      const dataUrl = canvas.toDataURL('image/png');
+      if (!dataUrl || dataUrl.indexOf(',') === -1) {
+        window.print();
+        return;
+      }
+      const base64 = dataUrl.split(',')[1];
+      if (window.notebookAppApi && typeof window.notebookAppApi.triggerFileDownload === 'function') {
+        window.notebookAppApi.triggerFileDownload({
+          content: base64,
+          contentType: 'image/png',
+          encoding: 'base64',
+          filename: '校園植物大探險家證書.png'
+        });
+      } else {
+        const link = document.createElement('a');
+        link.href = dataUrl;
+        link.download = '校園植物大探險家證書.png';
+        link.click();
+      }
+      playSound('correct');
+    }
+
+    /* =========================================================================
+       12. Boot Sequence
+       ========================================================================= */
+    window.addEventListener('resize', function () {
+      if (appState.currentStage === 4 && !appState.viewingCertificate) {
+        drawStage4Lines();
+      }
+    });
+
+    (async function initApp() {
+      await loadSavedState();
+      renderApp();
+      if (window.notebookAppApi && typeof window.notebookAppApi.notifyAppReady === 'function') {
+        window.notebookAppApi.notifyAppReady();
+      }
+    })();
+  </script>
+</body>
+</html>
